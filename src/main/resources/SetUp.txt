@@ -1,0 +1,142 @@
+POST /biswa_index/cacheType
+{ "location" : "Mexico" , "office":"Kalkaji Nagar"}
+
+
+POST /biswa_index/cacheType
+{ "location" : "Amsterdam" , "office":"Shivajdiagar"}
+
+
+POST /biswa_index/cacheType
+{ "location" : "Kolkata" , "office":"Lokish"}
+
+POST /biswa_index/cacheType
+{ "location" : "Delhi" , "office":"jamimilitan opo"}
+
+
+POST /biswa_index/cacheType
+{ "location" : "Islamabad" , "office":"Dum Dum"}
+
+
+POST /biswa_index/cacheType
+{ "location" : "Pakistan" , "office":"Burrabazar"}
+
+
+POST /biswa_index/cacheType
+{ "location" : "Khazakistan" , "office":"Marathahalli"}
+
+
+POST /biswa_index/cacheType
+{ "location" : "India" , "office":"Chinnapanahalli"}
+
+
+POST /biswa_index/cacheType
+{ "location" : "Dias el Hope" , "office":"Sheshanahalli"}
+
+
+POST /biswa_index/cacheType
+{ "location" : "Bangalore" , "office":"CV Raman Nagar"}
+
+GET /biswa_index/_search?q=location:dia&pretty=True
+
+### # Show how query input is analyzed
+
+GET /biswa_index/_analyze?text=gdfe&analyzer=cust_cache_analyzer&pretty=True
+
+GET /biswa_index/_search?q=location:999&pretty=True
+GET /biswa_index/_search?q=location:dia&pretty=True
+GET /biswa_index/_search?q=office:dia&pretty=True
+
+GET /biswa_index/_search?q=office:halli&pretty=True
+
+POST /biswa_index/_refresh
+
+POST biswa_index/_search
+{
+  "query": {
+        "match": {
+          "location":"kis"
+        }
+    }
+}
+
+
+DELETE /biswa_index
+
+PUT /biswa_index
+ { 
+
+   "settings" : { 
+
+     "index" : { 
+
+       "analysis" : { 
+
+         "analyzer" : { 
+
+           "cust_cache_analyzer" : { 
+
+             "type" : "custom", 
+
+             "tokenizer" : "lowercase", 
+
+             "filter"    : ["asciifolding", "title_ngram"] 
+
+           } 
+
+         }, 
+
+         "filter" : { 
+
+           "title_ngram" : { 
+
+             "type" : "nGram", 
+
+             "min_gram" : 3, 
+
+             "max_gram" : 5
+
+           } 
+
+         } 
+
+       } 
+
+     } 
+
+   }, 
+
+   
+
+   "mappings": { 
+
+     "location": { 
+
+       "properties": { 
+
+         "location": { 
+
+           "type": "string", 
+
+           "analyzer": "cust_cache_analyzer", 
+
+           "boost": 10 
+
+         },
+
+		"office": { 
+
+           "type": "string", 
+
+           "analyzer": "cust_cache_analyzer", 
+
+           "boost": 8
+
+         }		 
+
+       } 
+
+     } 
+
+   } 
+
+ }
